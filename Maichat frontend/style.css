@@ -163,7 +163,14 @@ body{
   border-top:1px solid rgba(255,255,255,0.06);
 }
 
-.input-bar input[type="text"]{
+.input-container{
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.input-container input[type="text"]{
   flex:1;
   padding:14px;
   border:none;
@@ -176,11 +183,10 @@ body{
   transition: all 0.3s ease-in-out;
 }
 
-.input-bar input[type="text"]:focus{
+.input-container input[type="text"]:focus{
   box-shadow: 0 0 30px rgba(0,255,255,1), 0 0 45px rgba(0,255,255,0.8), 0 0 60px rgba(0,255,255,0.6);
 }
 
-/* SEND BUTTON */
 .send-btn{
   padding:14px;
   border:none;
@@ -188,6 +194,8 @@ body{
   background:linear-gradient(135deg,#2563eb,#3b82f6);
   color:white;
   cursor:pointer;
+  position: absolute;
+  right: 0;
 }
 
 .send-btn:hover{
@@ -195,7 +203,6 @@ body{
   opacity:0.92;
 }
 
-/* VOICE BUTTON */
 .voice-btn{
   padding:14px;
   border:none;
@@ -203,6 +210,8 @@ body{
   background:linear-gradient(135deg,#2563eb,#3b82f6);
   color:white;
   cursor:pointer;
+  position: absolute;
+  right: 50px;
 }
 
 /* FILE UPLOAD BAR */
@@ -237,4 +246,4 @@ body{
     opacity:1;
     transform:translateY(0);
   }
-  }
+}
