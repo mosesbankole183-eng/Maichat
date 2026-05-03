@@ -30,9 +30,10 @@
       <div class="feature-list">
         <button onclick="generateImage()">🖼 Generate Image</button>
         <button onclick="generateVideo()">🎬 Generate Video</button>
-        <button onclick="startVoice()">🎤 Voice Chat</button>
-        <button onclick="closeSidebar()">Cancel</button>
       </div>
+
+      <!-- Cancel Button at the Bottom of Sidebar -->
+      <button class="cancel-btn" onclick="closeSidebar()">Cancel</button>
     </aside>
 
     <!-- CHAT AREA -->
@@ -61,7 +62,7 @@
         <!-- Send button inside the input box -->
         <button class="send-btn" onclick="sendChat()">➤</button>
 
-        <!-- Voice Chat button on the right -->
+        <!-- Voice Chat button inside the text box -->
         <button class="voice-btn" onclick="startVoice()">🎤</button>
       </div>
 
@@ -74,4 +75,4 @@
 
   <script src="script.js"></script>
 </body>
-</html>
+        </html>
