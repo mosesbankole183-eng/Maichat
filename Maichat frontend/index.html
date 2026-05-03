@@ -52,18 +52,20 @@
           <input type="file" id="imageUpload" hidden>
         </label>
 
-        <!-- Text input field with Send button inside -->
-        <input
-          id="chatInput"
-          type="text"
-          placeholder="Message Maichat..."
-        >
+        <!-- Text input field with Send button and Voice chat button inside -->
+        <div class="input-container">
+          <input
+            id="chatInput"
+            type="text"
+            placeholder="Message Maichat..."
+          >
 
-        <!-- Send button inside the input box -->
-        <button class="send-btn" onclick="sendChat()">➤</button>
+          <!-- Send button inside the input box -->
+          <button class="send-btn" onclick="sendChat()">➤</button>
 
-        <!-- Voice Chat button inside the text box -->
-        <button class="voice-btn" onclick="startVoice()">🎤</button>
+          <!-- Voice Chat button inside the text box -->
+          <button class="voice-btn" onclick="startVoice()">🎤</button>
+        </div>
       </div>
 
       <div class="file-upload-bar">
@@ -75,4 +77,4 @@
 
   <script src="script.js"></script>
 </body>
-        </html>
+</html>
