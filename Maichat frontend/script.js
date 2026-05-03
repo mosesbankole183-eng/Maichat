@@ -1,10 +1,26 @@
 const chatWindow = document.getElementById("chatWindow");
 
+// Toggle sidebar visibility
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("active");
   document.getElementById("backdrop").classList.toggle("active");
+  document.getElementById("hamburger").classList.toggle("active");
 }
 
+// Close sidebar if clicked outside (chat area)
+function closeSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const backdrop = document.getElementById("backdrop");
+  const hamburger = document.getElementById("hamburger");
+
+  if (sidebar.classList.contains("active")) {
+    sidebar.classList.remove("active");
+    backdrop.classList.remove("active");
+    hamburger.classList.remove("active");
+  }
+}
+
+// Add messages to the chat window
 function addMessage(text, sender) {
   const msg = document.createElement("div");
   msg.className = `message ${sender}`;
@@ -14,6 +30,7 @@ function addMessage(text, sender) {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
+// Handle sending messages
 async function sendChat() {
   const input = document.getElementById("chatInput");
   const message = input.value.trim();
@@ -50,6 +67,7 @@ async function sendChat() {
   }
 }
 
+// Handle voice input
 function startVoice() {
   const recognition = new webkitSpeechRecognition();
 
@@ -63,6 +81,7 @@ function startVoice() {
   recognition.start();
 }
 
+// Handle image upload
 async function uploadImage() {
   const file = document.getElementById("imageUpload").files[0];
 
@@ -84,6 +103,7 @@ async function uploadImage() {
   addMessage(`Image uploaded: ${data.file}`, "ai");
 }
 
+// Generate an image from AI
 async function generateImage() {
   addMessage("Generating image...", "ai");
 
@@ -101,6 +121,7 @@ async function generateImage() {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
+// Generate a video from AI
 async function generateVideo() {
   addMessage("Generating video...", "ai");
 
@@ -120,4 +141,4 @@ async function generateVideo() {
 
   chatWindow.appendChild(msg);
   chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
+}
