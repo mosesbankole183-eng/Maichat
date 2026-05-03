@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maichat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <button class="hamburger" onclick="toggleSidebar()" id="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+    <div class="brand">
+      <h1>Maichat</h1>
+      <p>Preview</p>
+    </div>
+  </header>
+
+  <!-- BACKDROP -->
+  <div class="backdrop" id="backdrop" onclick="toggleSidebar()"></div>
+
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">Maichat</div>
+
+      <button class="new-chat">+ New Chat</button>
+
+      <div class="feature-list">
+        <button onclick="startVoice()">🎤 Voice Chat</button>
+        <button onclick="generateImage()">🖼 Generate Image</button>
+        <button onclick="generateVideo()">🎬 Generate Video</button>
+      </div>
+    </aside>
+
+    <!-- CHAT AREA -->
+  <main class="chat-area" onclick="closeSidebarOnChatTap()">
+      <div id="chatWindow" class="chat-window">
+        <div class="message ai">
+          Maichat — Your Multimodal AI Assistant
+        </div>
+      </div>
+
+      <div class="input-bar">
+
+        <label class="upload-btn">
+          📎
+          <input type="file" id="imageUpload" hidden>
+        </label>
+
+        <button onclick="uploadImage()">Upload</button>
+
+        <input
+          id="chatInput"
+          type="text"
+          placeholder="Message Maichat..."
+        >
+
+        <button onclick="sendChat()">➤</button>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
