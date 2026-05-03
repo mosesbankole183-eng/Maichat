@@ -31,6 +31,7 @@
         <button onclick="generateImage()">🖼 Generate Image</button>
         <button onclick="generateVideo()">🎬 Generate Video</button>
         <button onclick="startVoice()">🎤 Voice Chat</button>
+        <button onclick="closeSidebar()">Cancel</button>
       </div>
     </aside>
 
@@ -44,19 +45,27 @@
       </div>
 
       <div class="input-bar">
+        <!-- File upload icon outside left -->
+        <label class="upload-btn">
+          📎
+          <input type="file" id="imageUpload" hidden>
+        </label>
+
+        <!-- Text input field with Send button inside -->
         <input
           id="chatInput"
           type="text"
           placeholder="Message Maichat..."
         >
+
+        <!-- Send button inside the input box -->
         <button class="send-btn" onclick="sendChat()">➤</button>
+
+        <!-- Voice Chat button on the right -->
+        <button class="voice-btn" onclick="startVoice()">🎤</button>
       </div>
 
       <div class="file-upload-bar">
-        <label class="upload-btn">
-          📎
-          <input type="file" id="imageUpload" hidden>
-        </label>
         <button onclick="uploadImage()">Upload</button>
       </div>
 
