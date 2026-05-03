@@ -159,4 +159,13 @@ async function generateVideo() {
 
   chatWindow.appendChild(msg);
   chatWindow.scrollTop = chatWindow.scrollHeight;
-             }
+}
+
+// Start a new chat
+function startNewChat() {
+  // Clear the chat window
+  chatWindow.innerHTML = "";
+
+  // Optionally add a welcome message or initial prompt
+  addMessage("Hi! How can I assist you today?", "ai");
+}
