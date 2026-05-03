@@ -138,7 +138,7 @@ body{
   align-self:flex-end;
 }
 
-/* INPUT BAR */
+/* NEON TEXT BOX */
 .input-bar{
   display:flex;
   align-items:center;
@@ -156,8 +156,16 @@ body{
   background:#1e293b;
   color:white;
   outline:none;
+  font-size:16px;
+  box-shadow: 0 0 15px rgba(0,255,255,0.8), 0 0 25px rgba(0,255,255,0.6), 0 0 35px rgba(0,255,255,0.4);
+  transition: all 0.3s ease-in-out;
 }
 
+.input-bar input[type="text"]:focus{
+  box-shadow: 0 0 30px rgba(0,255,255,1), 0 0 45px rgba(0,255,255,0.8), 0 0 60px rgba(0,255,255,0.6);
+}
+
+/* SEND BUTTON */
 .send-btn{
   padding:14px;
   border:none;
@@ -204,4 +212,4 @@ body{
     opacity:1;
     transform:translateY(0);
   }
-  }
+}
