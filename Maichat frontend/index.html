@@ -25,19 +25,20 @@
     <aside class="sidebar" id="sidebar">
       <div class="logo">Maichat</div>
 
-      <button class="new-chat">+ New Chat</button>
-
       <div class="feature-list">
         <button onclick="generateImage()">🖼 Generate Image</button>
         <button onclick="generateVideo()">🎬 Generate Video</button>
       </div>
 
-      <!-- Cancel Button at the Bottom of Sidebar -->
+      <!-- Move Cancel Button to the Bottom of Sidebar -->
       <button class="cancel-btn" onclick="closeSidebar()">Cancel</button>
     </aside>
 
     <!-- CHAT AREA -->
     <main class="chat-area">
+
+      <!-- New Chat Button in Top-right of the Chat Area -->
+      <button class="new-chat" onclick="startNewChat()">+ New Chat</button>
 
       <div id="chatWindow" class="chat-window">
         <div class="message ai">
@@ -78,4 +79,4 @@
 
   <script src="script.js"></script>
 </body>
-        </html>
+</html>
