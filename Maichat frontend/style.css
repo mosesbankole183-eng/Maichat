@@ -138,7 +138,7 @@ body{
   align-self:flex-end;
 }
 
-/* NEON TEXT BOX */
+/* INPUT BAR */
 .input-bar{
   display:flex;
   align-items:center;
@@ -178,6 +178,16 @@ body{
 .send-btn:hover{
   transform:translateY(-1px);
   opacity:0.92;
+}
+
+/* VOICE BUTTON */
+.voice-btn{
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  color:white;
+  cursor:pointer;
 }
 
 /* FILE UPLOAD BAR */
