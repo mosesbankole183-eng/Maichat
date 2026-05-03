@@ -35,16 +35,13 @@ body{
   color:white;
   font-size:22px;
   cursor:pointer;
-  transition:0.25s;
-}
-
-.hamburger:hover{
-  background:#334155;
 }
 
 .brand h1{
   font-size:28px;
   font-weight:800;
+  margin-left: auto;
+  text-align: right;
 }
 
 .brand p{
@@ -52,28 +49,11 @@ body{
   font-size:14px;
 }
 
-/* APP */
+/* APP LAYOUT */
 .app-layout{
   display:flex;
   height:calc(100vh - 85px);
   position:relative;
-}
-
-/* BACKDROP */
-.backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  backdrop-filter:blur(6px);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity 0.35s ease;
-  z-index:90;
-}
-
-.backdrop.active{
-  opacity:1;
-  pointer-events:auto;
 }
 
 /* SIDEBAR */
@@ -82,17 +62,13 @@ body{
   background:rgba(7,19,47,0.92);
   backdrop-filter:blur(18px);
   -webkit-backdrop-filter:blur(18px);
-
   padding:20px;
   position:fixed;
   left:0;
   top:0;
   height:100%;
-
   transform:translateX(-110%);
-  transition:
-    transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
-
+  transition:0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index:100;
   border-right:1px solid rgba(255,255,255,0.08);
   box-shadow:8px 0 30px rgba(0,0,0,0.35);
@@ -120,7 +96,6 @@ body{
   background:#1e293b;
   color:white;
   cursor:pointer;
-  transition:0.25s;
 }
 
 .sidebar button:hover{
@@ -133,9 +108,7 @@ body{
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  background:
-    radial-gradient(circle at top right, rgba(99,102,241,0.15), transparent 35%),
-    #020b24;
+  background:#020b24;
 }
 
 .chat-window{
@@ -185,27 +158,41 @@ body{
   outline:none;
 }
 
-.input-bar button,
-.upload-btn{
+.send-btn{
   padding:14px;
   border:none;
   border-radius:14px;
   background:linear-gradient(135deg,#2563eb,#3b82f6);
   color:white;
   cursor:pointer;
-  transition:0.25s;
 }
 
-.input-bar button:hover,
-.upload-btn:hover{
+.send-btn:hover{
   transform:translateY(-1px);
   opacity:0.92;
 }
 
-img,
-video{
-  max-width:100%;
+/* FILE UPLOAD BAR */
+.file-upload-bar{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:10px;
+  background:#07132f;
+}
+
+.upload-btn{
+  padding:14px;
+  border:none;
+  background:#2563eb;
+  color:white;
   border-radius:12px;
+  cursor:pointer;
+}
+
+.upload-btn:hover{
+  transform:translateY(-1px);
+  opacity:0.92;
 }
 
 @keyframes fadeIn{
@@ -217,4 +204,4 @@ video{
     opacity:1;
     transform:translateY(0);
   }
-}
+  }
