@@ -9,15 +9,11 @@
 <body>
 
   <!-- TOP BAR -->
-  <button class="hamburger" onclick="toggleSidebar()" id="hamburger">
-  <span></span>
-  <span></span>
-  <span></span>
-</button>
+  <header class="topbar">
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
 
     <div class="brand">
-      <h1>Maichat</h1>
-      <p>Preview</p>
+      <h1 class="maichat-title">Maichat</h1>
     </div>
   </header>
 
@@ -25,7 +21,6 @@
   <div class="backdrop" id="backdrop" onclick="toggleSidebar()"></div>
 
   <div class="app-layout">
-
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <div class="logo">Maichat</div>
@@ -33,14 +28,15 @@
       <button class="new-chat">+ New Chat</button>
 
       <div class="feature-list">
-        <button onclick="startVoice()">🎤 Voice Chat</button>
         <button onclick="generateImage()">🖼 Generate Image</button>
         <button onclick="generateVideo()">🎬 Generate Video</button>
+        <button onclick="startVoice()">🎤 Voice Chat</button>
       </div>
     </aside>
 
     <!-- CHAT AREA -->
-  <main class="chat-area" onclick="closeSidebarOnChatTap()">
+    <main class="chat-area">
+
       <div id="chatWindow" class="chat-window">
         <div class="message ai">
           Maichat — Your Multimodal AI Assistant
@@ -48,26 +44,23 @@
       </div>
 
       <div class="input-bar">
-
-        <label class="upload-btn">
-          📎
-          <input type="file" id="imageUpload" hidden>
-        </label>
-
-        <button onclick="uploadImage()">Upload</button>
-
         <input
           id="chatInput"
           type="text"
           placeholder="Message Maichat..."
         >
+        <button class="send-btn" onclick="sendChat()">➤</button>
+      </div>
 
-        <button onclick="sendChat()">➤</button>
-
+      <div class="file-upload-bar">
+        <label class="upload-btn">
+          📎
+          <input type="file" id="imageUpload" hidden>
+        </label>
+        <button onclick="uploadImage()">Upload</button>
       </div>
 
     </main>
-
   </div>
 
   <script src="script.js"></script>
