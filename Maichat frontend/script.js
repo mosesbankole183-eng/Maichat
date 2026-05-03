@@ -8,28 +8,35 @@ function toggleSidebar() {
 }
 
 // Close sidebar if clicked outside (chat area or backdrop)
+document.addEventListener('click', function(event) {
+  const sidebar = document.getElementById("sidebar");
+  const hamburger = document.getElementById("hamburger");
+  const backdrop = document.getElementById("backdrop");
+
+  // Close sidebar if the click is outside the sidebar and hamburger
+  if (!sidebar.contains(event.target) && !hamburger.contains(event.target) && !backdrop.contains(event.target)) {
+    // Only close if sidebar is open
+    if (sidebar.classList.contains("active")) {
+      sidebar.classList.remove("active");
+      backdrop.classList.remove("active");
+      hamburger.classList.remove("active");
+    }
+  }
+});
+
+// Close sidebar on backdrop click
+document.getElementById('backdrop').addEventListener('click', closeSidebar);
+
+// Close sidebar manually
 function closeSidebar() {
   const sidebar = document.getElementById("sidebar");
   const backdrop = document.getElementById("backdrop");
   const hamburger = document.getElementById("hamburger");
 
-  if (sidebar.classList.contains("active")) {
-    sidebar.classList.remove("active");
-    backdrop.classList.remove("active");
-    hamburger.classList.remove("active");
-  }
+  sidebar.classList.remove("active");
+  backdrop.classList.remove("active");
+  hamburger.classList.remove("active");
 }
-
-// Detect click outside of the sidebar to close it
-document.addEventListener('click', function(event) {
-  const sidebar = document.getElementById("sidebar");
-  const hamburger = document.getElementById("hamburger");
-
-  // Close sidebar if clicked outside of it and not on the hamburger button
-  if (!sidebar.contains(event.target) && !hamburger.contains(event.target)) {
-    closeSidebar();
-  }
-});
 
 // Add messages to the chat window
 function addMessage(text, sender) {
@@ -152,4 +159,4 @@ async function generateVideo() {
 
   chatWindow.appendChild(msg);
   chatWindow.scrollTop = chatWindow.scrollHeight;
-}
+             }
