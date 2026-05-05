@@ -1,80 +1,52 @@
 const chatWindow = document.getElementById("chatWindow");
 
-// Toggle sidebar visibility
 function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("active");
-  document.getElementById("backdrop").classList.toggle("active");
-  document.getElementById("hamburger").classList.toggle("active");
+  sidebar.classList.toggle("active");
+  backdrop.classList.toggle("active");
 }
 
-// Close sidebar if clicked outside (chat area or backdrop)
-document.addEventListener('click', function(event) {
-  const sidebar = document.getElementById("sidebar");
-  const hamburger = document.getElementById("hamburger");
-  const backdrop = document.getElementById("backdrop");
-
-  // Close sidebar if the click is outside the sidebar and hamburger
-  if (!sidebar.contains(event.target) && !hamburger.contains(event.target) && !backdrop.contains(event.target)) {
-    // Only close if sidebar is open
-    if (sidebar.classList.contains("active")) {
-      sidebar.classList.remove("active");
-      backdrop.classList.remove("active");
-      hamburger.classList.remove("active");
-    }
-  }
-});
-
-// Close sidebar on backdrop click
-document.getElementById('backdrop').addEventListener('click', closeSidebar);
-
-// Close sidebar manually
 function closeSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const backdrop = document.getElementById("backdrop");
-  const hamburger = document.getElementById("hamburger");
-
   sidebar.classList.remove("active");
   backdrop.classList.remove("active");
-  hamburger.classList.remove("active");
 }
 
-// Add messages to the chat window
+function startNewChat() {
+  chatWindow.innerHTML = "";
+  addMessage("Hi! How can I assist you today?", "ai");
+}
+
+function autoResize(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 140) + "px";
+}
+
 function addMessage(text, sender) {
   const msg = document.createElement("div");
   msg.className = `message ${sender}`;
-  msg.innerText = text;
-
+  msg.textContent = text;
   chatWindow.appendChild(msg);
   chatWindow.scrollTop = chatWindow.scrollHeight;
+  return msg;
 }
 
-// Handle sending messages
 async function sendChat() {
   const input = document.getElementById("chatInput");
   const message = input.value.trim();
+
   if (!message) return;
 
   addMessage(message, "user");
+
   input.value = "";
+  input.style.height = "auto";
 
-  const aiMsg = addMessage("", "ai");
-
-  const convo = currentConversationId;
-
-  await sendMessage(convo, message, (chunk) => {
-    aiMsg.textContent += chunk;
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-  });
-}
-  const thinking = document.createElement("div");
-  thinking.className = "message ai";
-  thinking.innerText = "Maichat is thinking...";
-  chatWindow.appendChild(thinking);
-
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+  const aiMsg = document.createElement("div");
+  aiMsg.className = "message ai";
+  aiMsg.innerHTML = `<span class="typing-cursor"></span>`;
+  chatWindow.appendChild(aiMsg);
 
   try {
-    const res = await fetch("/api/chat", {
+    const res = await fetch("/api/chat/stream", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -82,98 +54,41 @@ async function sendChat() {
       body: JSON.stringify({ message })
     });
 
-    const data = await res.json();
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
 
-    thinking.remove();
-    addMessage(data.reply, "ai");
+    aiMsg.textContent = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      aiMsg.textContent += decoder.decode(value);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
 
   } catch (err) {
-    thinking.remove();
-    addMessage("Error connecting to Maichat.", "ai");
+    aiMsg.textContent = "Error streaming response.";
   }
 }
 
-// Handle voice input
 function startVoice() {
   const recognition = new webkitSpeechRecognition();
 
   recognition.lang = "en-US";
 
-  recognition.onresult = function(event) {
+  recognition.onresult = e => {
     document.getElementById("chatInput").value =
-      event.results[0][0].transcript;
+      e.results[0][0].transcript;
   };
 
   recognition.start();
 }
 
-// Handle image upload
-async function uploadImage() {
-  const file = document.getElementById("imageUpload").files[0];
-
-  if (!file) {
-    addMessage("Please select an image first.", "ai");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("image", file);
-
-  const res = await fetch("/api/image/upload", {
-    method: "POST",
-    body: formData
-  });
-
-  const data = await res.json();
-
-  addMessage(`Image uploaded: ${data.file}`, "ai");
-}
-
-// Generate an image from AI
 async function generateImage() {
   addMessage("Generating image...", "ai");
-
-  const res = await fetch("/api/image/generate", {
-    method: "POST"
-  });
-
-  const data = await res.json();
-
-  const msg = document.createElement("div");
-  msg.className = "message ai";
-  msg.innerHTML = `<img src="${data.imageUrl}" alt="Generated Image">`;
-
-  chatWindow.appendChild(msg);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
-// Generate a video from AI
 async function generateVideo() {
   addMessage("Generating video...", "ai");
-
-  const res = await fetch("/api/video/generate", {
-    method: "POST"
-  });
-
-  const data = await res.json();
-
-  const msg = document.createElement("div");
-  msg.className = "message ai";
-  msg.innerHTML = `
-    <video controls>
-      <source src="${data.videoUrl}">
-    </video>
-  `;
-
-  chatWindow.appendChild(msg);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
-}
-
-// Start a new chat
-function startNewChat() {
-  // Clear the chat window
-  chatWindow.innerHTML = "";
-
-  // Optionally add a welcome message or initial prompt
-  addMessage("Hi! How can I assist you today?", "ai");
 }
