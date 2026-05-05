@@ -52,12 +52,20 @@ function addMessage(text, sender) {
 async function sendChat() {
   const input = document.getElementById("chatInput");
   const message = input.value.trim();
-
   if (!message) return;
 
   addMessage(message, "user");
   input.value = "";
 
+  const aiMsg = addMessage("", "ai");
+
+  const convo = currentConversationId;
+
+  await sendMessage(convo, message, (chunk) => {
+    aiMsg.textContent += chunk;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  });
+}
   const thinking = document.createElement("div");
   thinking.className = "message ai";
   thinking.innerText = "Maichat is thinking...";
