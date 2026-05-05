@@ -1,3 +1,5 @@
+const sidebar = document.getElementById("sidebar");
+const backdrop = document.getElementById("backdrop");
 const chatWindow = document.getElementById("chatWindow");
 
 function toggleSidebar() {
