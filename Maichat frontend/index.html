@@ -1,63 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maichat</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<header class="topbar">
-  <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
-  <h1 class="maichat-title">Maichat</h1>
-  <button class="new-chat-top" onclick="startNewChat()">✎</button>
-</header>
+<header class="topbar glass">
+  <div class="top-left">
+    <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
-<div class="backdrop" id="backdrop" onclick="closeSidebar()"></div>
-
-<aside class="sidebar" id="sidebar">
-  <div class="logo">Maichat</div>
-
-  <button onclick="generateImage()">🖼 Generate Image</button>
-  <button onclick="generateVideo()">🎬 Generate Video</button>
-
-  <button class="cancel-btn" onclick="closeSidebar()">Cancel</button>
-</aside>
-
-<main class="chat-area">
-
-  <div id="chatWindow" class="chat-window">
-    <div class="message ai">
-      Maichat — Your Multimodal AI Assistant
-    </div>
+    <h1 class="logo-title">Maichat</h1>
   </div>
 
-  <div class="input-bar">
-    <div class="composer-wrap">
+  <button class="new-chat-btn" onclick="startNewChat()">
+    ✎
+  </button>
+</header>
 
-      <label class="attach-btn">
-        📎
-        <input type="file" id="imageUpload" hidden>
-      </label>
+<div id="backdrop" class="backdrop" onclick="closeSidebar()"></div>
 
-      <div class="composer-shell">
-        <textarea
-          id="chatInput"
-          rows="1"
-          placeholder="Message Maichat..."
-          oninput="autoResize(this)"
-        ></textarea>
+<aside id="sidebar" class="sidebar glass">
+  <div class="sidebar-header">
+    <h2>Maichat</h2>
+  </div>
 
-        <button class="voice-btn" onclick="startVoice()">🎤</button>
-        <button class="send-btn" onclick="sendChat()">➤</button>
+  <button onclick="openImageGenerator()">
+    🖼 Generate Image
+  </button>
+
+  <button onclick="openVideoGenerator()">
+    🎬 Generate Video
+  </button>
+
+  <div class="sidebar-bottom">
+    <button class="cancel-btn" onclick="closeSidebar()">
+      Cancel
+    </button>
+  </div>
+</aside>
+
+<main class="chat-container">
+
+  <div id="chatWindow" class="chat-window">
+
+    <div class="message ai-message">
+      <div class="bubble">
+        Maichat — Your Multimodal AI Assistant
       </div>
+    </div>
+
+  </div>
+
+  <div class="composer-area">
+
+    <label class="attach-btn glass">
+      📎
+      <input type="file" id="imageUpload" hidden />
+    </label>
+
+    <div class="composer glass">
+
+      <textarea
+        id="chatInput"
+        placeholder="Message Maichat..."
+        rows="1"
+        oninput="autoResize(this)"
+      ></textarea>
+
+      <button class="voice-btn" onclick="startVoice()">
+        🎤
+      </button>
+
+      <button class="send-btn" onclick="sendChat()">
+        ➤
+      </button>
 
     </div>
+
   </div>
 
 </main>
 
+<script src="api.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
