@@ -2,93 +2,173 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
   <title>Maichat</title>
+
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-<header class="topbar glass">
-  <div class="top-left">
-    <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
-      <span></span>
-      <span></span>
-      <span></span>
+  <!-- BACKDROP -->
+
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar glass" id="sidebar">
+
+    <div class="sidebar-header">
+      <h2>Maichat</h2>
+    </div>
+
+    <button>🖼 Generate Image</button>
+    <button>🎬 Generate Video</button>
+    <button>⚙ Settings</button>
+
+    <div class="sidebar-bottom">
+      <button class="cancel-btn" id="closeSidebar">
+        Cancel
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- TOPBAR -->
+
+  <header class="topbar">
+
+    <div class="top-left">
+
+      <!-- HAMBURGER -->
+
+      <button class="hamburger glass" id="menuBtn">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </button>
+
+      <!-- LOGO -->
+
+      <h1 class="logo-title">Maichat</h1>
+
+    </div>
+
+    <!-- NEW CHAT -->
+
+    <button class="new-chat-btn" id="newChatBtn">
+
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path
+          d="M12 5H5C3.9 5 3 5.9 3 7V19C3 20.1 3.9 21 5 21H17C18.1 21 19 20.1 19 19V12"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <path
+          d="M18.375 3.625C18.7728 3.22718 19.3124 3.00366 19.875 3.00366C20.4376 3.00366 20.9772 3.22718 21.375 3.625C21.7728 4.02282 21.9963 4.56239 21.9963 5.125C21.9963 5.68761 21.7728 6.22718 21.375 6.625L12.362 15.638L9 16L9.362 12.638L18.375 3.625Z"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+
     </button>
 
-    <h1 class="logo-title">Maichat</h1>
-  </div>
+  </header>
 
-  <button class="new-chat-btn" onclick="startNewChat()">
-    ✎
-  </button>
-</header>
+  <!-- CHAT AREA -->
 
-<div id="backdrop" class="backdrop" onclick="closeSidebar()"></div>
+  <main class="chat-container">
 
-<aside id="sidebar" class="sidebar glass">
-  <div class="sidebar-header">
-    <h2>Maichat</h2>
-  </div>
+    <div class="chat-window" id="chatWindow">
 
-  <button onclick="openImageGenerator()">
-    🖼 Generate Image
-  </button>
-
-  <button onclick="openVideoGenerator()">
-    🎬 Generate Video
-  </button>
-
-  <div class="sidebar-bottom">
-    <button class="cancel-btn" onclick="closeSidebar()">
-      Cancel
-    </button>
-  </div>
-</aside>
-
-<main class="chat-container">
-
-  <div id="chatWindow" class="chat-window">
-
-    <div class="message ai-message">
-      <div class="bubble">
-        Maichat — Your Multimodal AI Assistant
+      <div class="message ai-message">
+        <div class="bubble">
+          Maichat — Your Multimodal AI Assistant
+        </div>
       </div>
-    </div>
-
-  </div>
-
-  <div class="composer-area">
-
-    <label class="attach-btn glass">
-      📎
-      <input type="file" id="imageUpload" hidden />
-    </label>
-
-    <div class="composer glass">
-
-      <textarea
-        id="chatInput"
-        placeholder="Message Maichat..."
-        rows="1"
-        oninput="autoResize(this)"
-      ></textarea>
-
-      <button class="voice-btn" onclick="startVoice()">
-        🎤
-      </button>
-
-      <button class="send-btn" onclick="sendChat()">
-        ➤
-      </button>
 
     </div>
 
-  </div>
+    <!-- COMPOSER -->
 
-</main>
+    <div class="composer-area">
 
-<script src="api.js"></script>
-<script src="script.js"></script>
+      <!-- FILE BUTTON -->
+
+      <button class="attach-btn">
+
+        📎
+
+      </button>
+
+      <!-- INPUT -->
+
+      <div class="composer">
+
+        <textarea
+          id="chatInput"
+          rows="1"
+          placeholder="Message Maichat..."
+        ></textarea>
+
+        <!-- VOICE -->
+
+        <button class="voice-btn">
+
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M12 15C13.6569 15 15 13.6569 15 12V7C15 5.34315 13.6569 4 12 4C10.3431 4 9 5.34315 9 7V12C9 13.6569 10.3431 15 12 15Z"
+              stroke="white"
+              stroke-width="2"
+            />
+
+            <path
+              d="M19 11V12C19 15.866 15.866 19 12 19M5 11V12C5 15.866 8.13401 19 12 19M12 19V22"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+
+        </button>
+
+        <!-- SEND -->
+
+        <button class="send-btn" id="sendBtn">
+
+          ➤
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="api.js"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>
