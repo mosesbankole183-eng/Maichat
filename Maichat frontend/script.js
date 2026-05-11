@@ -1,20 +1,20 @@
 const sidebar = document.getElementById("sidebar");
 const backdrop = document.getElementById("backdrop");
+const hamburger = document.getElementById("hamburger");
 const chatWindow = document.getElementById("chatWindow");
+
+let currentConversationId = null;
 
 function toggleSidebar() {
   sidebar.classList.toggle("active");
   backdrop.classList.toggle("active");
+  hamburger.classList.toggle("active");
 }
 
 function closeSidebar() {
   sidebar.classList.remove("active");
   backdrop.classList.remove("active");
-}
-
-function startNewChat() {
-  chatWindow.innerHTML = "";
-  addMessage("Hi! How can I assist you today?", "ai");
+  hamburger.classList.remove("active");
 }
 
 function autoResize(el) {
@@ -22,55 +22,84 @@ function autoResize(el) {
   el.style.height = Math.min(el.scrollHeight, 140) + "px";
 }
 
-function addMessage(text, sender) {
-  const msg = document.createElement("div");
-  msg.className = `message ${sender}`;
-  msg.textContent = text;
-  chatWindow.appendChild(msg);
+function addMessage(text, type) {
+  const wrapper = document.createElement("div");
+  wrapper.className = `message ${type}-message`;
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.textContent = text;
+
+  wrapper.appendChild(bubble);
+  chatWindow.appendChild(wrapper);
+
   chatWindow.scrollTop = chatWindow.scrollHeight;
-  return msg;
+
+  return bubble;
+}
+
+async function startNewChat() {
+  try {
+    const convo = await newChat();
+
+    currentConversationId = convo._id;
+
+    chatWindow.innerHTML = "";
+
+    addMessage(
+      "Hi! How can I help you today?",
+      "ai"
+    );
+
+  } catch {
+    addMessage(
+      "Could not create new chat.",
+      "ai"
+    );
+  }
 }
 
 async function sendChat() {
   const input = document.getElementById("chatInput");
+
   const message = input.value.trim();
 
   if (!message) return;
+
+  if (!currentConversationId) {
+    await startNewChat();
+  }
 
   addMessage(message, "user");
 
   input.value = "";
   input.style.height = "auto";
 
-  const aiMsg = document.createElement("div");
-  aiMsg.className = "message ai";
-  aiMsg.innerHTML = `<span class="typing-cursor"></span>`;
-  chatWindow.appendChild(aiMsg);
+  const aiBubble = addMessage("", "ai");
+
+  aiBubble.innerHTML = '<span class="typing-cursor"></span>';
+
+  let started = false;
 
   try {
-    const res = await fetch("/api/chat/stream", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ message })
-    });
+    await sendMessage(
+      currentConversationId,
+      message,
+      (chunk) => {
+        if (!started) {
+          aiBubble.textContent = "";
+          started = true;
+        }
 
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
+        aiBubble.textContent += chunk;
 
-    aiMsg.textContent = "";
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+    );
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      aiMsg.textContent += decoder.decode(value);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
-
-  } catch (err) {
-    aiMsg.textContent = "Error streaming response.";
+  } catch {
+    aiBubble.textContent =
+      "Error connecting to Maichat.";
   }
 }
 
@@ -79,7 +108,7 @@ function startVoice() {
 
   recognition.lang = "en-US";
 
-  recognition.onresult = e => {
+  recognition.onresult = (e) => {
     document.getElementById("chatInput").value =
       e.results[0][0].transcript;
   };
@@ -87,10 +116,90 @@ function startVoice() {
   recognition.start();
 }
 
-async function generateImage() {
-  addMessage("Generating image...", "ai");
+async function openImageGenerator() {
+  const prompt = prompt("Describe the image");
+
+  if (!prompt) return;
+
+  const bubble = addMessage(
+    "Generating image...",
+    "ai"
+  );
+
+  try {
+    const res = await generateImage(prompt);
+
+    bubble.innerHTML = `
+      <p>Generated image:</p>
+      <img class="generated-image" src="${res.imageUrl}" />
+    `;
+
+  } catch {
+    bubble.textContent =
+      "Image generation failed.";
+  }
 }
 
-async function generateVideo() {
-  addMessage("Generating video...", "ai");
+async function openVideoGenerator() {
+  const prompt = prompt("Describe the video");
+
+  if (!prompt) return;
+
+  const bubble = addMessage(
+    "Generating video...",
+    "ai"
+  );
+
+  try {
+    const res = await generateVideo(prompt);
+
+    bubble.innerHTML = `
+      <video controls width="100%">
+        <source src="${res.videoUrl}" type="video/mp4">
+      </video>
+    `;
+
+  } catch {
+    bubble.textContent =
+      "Video generation failed.";
+  }
 }
+
+document
+  .getElementById("imageUpload")
+  .addEventListener("change", async (e) => {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const bubble = addMessage(
+      "Uploading image...",
+      "ai"
+    );
+
+    try {
+      const uploaded = await uploadImage(file);
+
+      bubble.innerHTML = `
+        <p>Image uploaded successfully.</p>
+        <img class="generated-image" src="${uploaded.imageUrl}" />
+      `;
+
+      const analysis =
+        await analyzeImage(uploaded.imageUrl);
+
+      addMessage(
+        analysis.analysis,
+        "ai"
+      );
+
+    } catch {
+      bubble.textContent =
+        "Image upload failed.";
+    }
+  });
+
+window.onload = async () => {
+  await startNewChat();
+};
