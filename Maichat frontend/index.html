@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -14,34 +16,44 @@
 
 <body>
 
-<!-- BACKDROP -->
+  <!-- BACKDROP -->
 
-<div class="backdrop" id="backdrop"></div>
+  <div
+    class="backdrop"
+    id="backdrop"
+  ></div>
 
-<!-- SIDEBAR -->
+  <!-- SIDEBAR -->
 
-<aside class="sidebar glass" id="sidebar">
+  <aside
+    class="sidebar glass"
+    id="sidebar"
+  >
 
-  <div class="sidebar-header">
-    <h2>Maichat</h2>
-  </div>
+    <div class="sidebar-header">
+      <h2>Maichat</h2>
+    </div>
 
-  <button>🖼 Generate Image</button>
-  <button>🎬 Generate Video</button>
-  <button>⚙ Settings</button>
+    <button>🖼 Generate Image</button>
 
-  <div class="sidebar-bottom">
+    <button>🎬 Generate Video</button>
 
-    <button
-      class="cancel-btn"
-      id="closeSidebar"
-    >
-      Cancel
-    </button>
+    <button>🎤 Voice Chat</button>
 
-  </div>
+    <button>⚙ Settings</button>
 
-</aside>
+    <div class="sidebar-bottom">
+
+      <button
+        class="cancel-btn"
+        id="closeSidebar"
+      >
+        Cancel
+      </button>
+
+    </div>
+
+  </aside>
 
   <!-- TOPBAR -->
 
@@ -51,25 +63,33 @@
 
       <!-- HAMBURGER -->
 
-      <button class="hamburger glass" id="menuBtn">
+      <button
+        class="hamburger glass"
+        id="menuBtn"
+      >
 
-  <div class="hamburger-lines">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+        <div class="hamburger-lines">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
 
       </button>
 
       <!-- LOGO -->
 
-      <h1 class="logo-title">Maichat</h1>
+      <h1 class="logo-title">
+        Maichat
+      </h1>
 
     </div>
 
     <!-- NEW CHAT -->
 
-    <button class="new-chat-btn" id="newChatBtn">
+    <button
+      class="new-chat-btn"
+      id="newChatBtn"
+    >
 
       <svg
         width="22"
@@ -98,16 +118,23 @@
 
   </header>
 
-  <!-- CHAT AREA -->
+  <!-- CHAT -->
 
   <main class="chat-container">
 
-    <div class="chat-window" id="chatWindow">
+    <!-- CHAT WINDOW -->
+
+    <div
+      class="chat-window"
+      id="chatWindow"
+    >
 
       <div class="message ai-message">
+
         <div class="bubble">
-          Maichat — Your Multimodal AI Assistant
+          👋 Welcome to Maichat — Your Multimodal AI Assistant
         </div>
+
       </div>
 
     </div>
@@ -116,15 +143,13 @@
 
     <div class="composer-area">
 
-      <!-- FILE BUTTON -->
+      <!-- ATTACH -->
 
       <button class="attach-btn">
-
         📎
-
       </button>
 
-      <!-- INPUT -->
+      <!-- INPUT BOX -->
 
       <div class="composer">
 
@@ -162,32 +187,35 @@
 
         <!-- SEND -->
 
-<button class="send-btn" id="sendBtn">
+        <button
+          class="send-btn"
+          id="sendBtn"
+        >
 
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-  >
-    <path
-      d="M5 12H19"
-      stroke="white"
-      stroke-width="2.2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M5 12H19"
+              stroke="white"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
 
-    <path
-      d="M12 5L19 12L12 19"
-      stroke="white"
-      stroke-width="2.2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
+            <path
+              d="M12 5L19 12L12 19"
+              stroke="white"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
 
-</button>
+        </button>
 
       </div>
 
@@ -195,11 +223,12 @@
 
   </main>
 
-  
-  
+  <!-- SCRIPTS -->
+
+  <script src="api.js"></script>
+
+  <script src="script.js"></script>
+
 </body>
 
-
-<script src="script.js"></script>
-<script src="api.js"></script>
 </html>
