@@ -1,243 +1,258 @@
+// =========================
+// ELEMENTS
+// =========================
+
 const menuBtn = document.getElementById("menuBtn");
 const sidebar = document.getElementById("sidebar");
 const backdrop = document.getElementById("backdrop");
 const closeSidebar = document.getElementById("closeSidebar");
 
-menuBtn.addEventListener("click", () => {
-
-  sidebar.classList.toggle("active");
-
-  backdrop.classList.toggle("active");
-
-  menuBtn.classList.toggle("active");
-
-});
-
-backdrop.addEventListener("click", () => {
-
-  sidebar.classList.remove("active");
-
-  backdrop.classList.remove("active");
-
-  menuBtn.classList.remove("active");
-
-});
-
-closeSidebar.addEventListener("click", () => {
-
-  sidebar.classList.remove("active");
-
-  backdrop.classList.remove("active");
-
-  menuBtn.classList.remove("active");
-
-});
-
-backdrop.addEventListener("click", closeSidebarMenu);
-
-closeSidebar.addEventListener("click", closeSidebarMenu);
-const sidebar = document.getElementById("sidebar");
-const backdrop = document.getElementById("backdrop");
-const hamburger = document.getElementById("hamburger");
+const sendBtn = document.getElementById("sendBtn");
+const chatInput = document.getElementById("chatInput");
 const chatWindow = document.getElementById("chatWindow");
 
-let currentConversationId = null;
+const newChatBtn = document.getElementById("newChatBtn");
 
-function toggleSidebar() {
-  sidebar.classList.toggle("active");
-  backdrop.classList.toggle("active");
-  hamburger.classList.toggle("active");
+
+// =========================
+// SIDEBAR
+// =========================
+
+function openSidebar() {
+
+  sidebar.classList.add("active");
+
+  backdrop.classList.add("active");
+
+  menuBtn.classList.add("active");
+
 }
 
-function closeSidebar() {
+function closeSidebarMenu() {
+
   sidebar.classList.remove("active");
+
   backdrop.classList.remove("active");
-  hamburger.classList.remove("active");
+
+  menuBtn.classList.remove("active");
+
 }
 
-function autoResize(el) {
-  el.style.height = "auto";
-  el.style.height = Math.min(el.scrollHeight, 140) + "px";
-}
+menuBtn.addEventListener("click", () => {
 
-function addMessage(text, type) {
-  const wrapper = document.createElement("div");
-  wrapper.className = `message ${type}-message`;
+  if (sidebar.classList.contains("active")) {
+
+    closeSidebarMenu();
+
+  } else {
+
+    openSidebar();
+
+  }
+
+});
+
+backdrop.addEventListener(
+  "click",
+  closeSidebarMenu
+);
+
+closeSidebar.addEventListener(
+  "click",
+  closeSidebarMenu
+);
+
+
+// =========================
+// AUTO RESIZE TEXTAREA
+// =========================
+
+chatInput.addEventListener("input", () => {
+
+  chatInput.style.height = "auto";
+
+  chatInput.style.height =
+    chatInput.scrollHeight + "px";
+
+});
+
+
+// =========================
+// CREATE MESSAGE
+// =========================
+
+function createMessage(content, type) {
+
+  const message = document.createElement("div");
+
+  message.className =
+    `message ${type}-message`;
 
   const bubble = document.createElement("div");
+
   bubble.className = "bubble";
-  bubble.textContent = text;
 
-  wrapper.appendChild(bubble);
-  chatWindow.appendChild(wrapper);
+  bubble.innerHTML = content;
 
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+  message.appendChild(bubble);
+
+  chatWindow.appendChild(message);
+
+  chatWindow.scrollTop =
+    chatWindow.scrollHeight;
 
   return bubble;
+
 }
 
-async function startNewChat() {
-  try {
-    const convo = await newChat();
 
-    currentConversationId = convo._id;
+// =========================
+// FAKE AI STREAMING
+// =========================
 
-    chatWindow.innerHTML = "";
+async function streamAIResponse(text) {
 
-    addMessage(
-      "Hi! How can I help you today?",
-      "ai"
-    );
-
-  } catch {
-    addMessage(
-      "Could not create new chat.",
-      "ai"
-    );
-  }
-}
-
-async function sendChat() {
-  const input = document.getElementById("chatInput");
-
-  const message = input.value.trim();
-
-  if (!message) return;
-
-  if (!currentConversationId) {
-    await startNewChat();
-  }
-
-  addMessage(message, "user");
-
-  input.value = "";
-  input.style.height = "auto";
-
-  const aiBubble = addMessage("", "ai");
-
-  aiBubble.innerHTML = '<span class="typing-cursor"></span>';
-
-  let started = false;
-
-  try {
-    await sendMessage(
-      currentConversationId,
-      message,
-      (chunk) => {
-        if (!started) {
-          aiBubble.textContent = "";
-          started = true;
-        }
-
-        aiBubble.textContent += chunk;
-
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-      }
-    );
-
-  } catch {
-    aiBubble.textContent =
-      "Error connecting to Maichat.";
-  }
-}
-
-function startVoice() {
-  const recognition = new webkitSpeechRecognition();
-
-  recognition.lang = "en-US";
-
-  recognition.onresult = (e) => {
-    document.getElementById("chatInput").value =
-      e.results[0][0].transcript;
-  };
-
-  recognition.start();
-}
-
-async function openImageGenerator() {
-  const prompt = prompt("Describe the image");
-
-  if (!prompt) return;
-
-  const bubble = addMessage(
-    "Generating image...",
+  const bubble = createMessage(
+    "",
     "ai"
   );
 
-  try {
-    const res = await generateImage(prompt);
+  let index = 0;
 
-    bubble.innerHTML = `
-      <p>Generated image:</p>
-      <img class="generated-image" src="${res.imageUrl}" />
-    `;
+  const typingCursor =
+    `<span class="typing-cursor"></span>`;
 
-  } catch {
-    bubble.textContent =
-      "Image generation failed.";
+  while (index < text.length) {
+
+    bubble.innerHTML =
+      text.slice(0, index + 1) +
+      typingCursor;
+
+    index++;
+
+    chatWindow.scrollTop =
+      chatWindow.scrollHeight;
+
+    await new Promise(resolve =>
+      setTimeout(resolve, 18)
+    );
+
   }
+
+  bubble.innerHTML = text;
+
 }
 
-async function openVideoGenerator() {
-  const prompt = prompt("Describe the video");
 
-  if (!prompt) return;
+// =========================
+// SEND MESSAGE
+// =========================
 
-  const bubble = addMessage(
-    "Generating video...",
-    "ai"
-  );
+async function sendMessage() {
 
-  try {
-    const res = await generateVideo(prompt);
+  const text =
+    chatInput.value.trim();
 
-    bubble.innerHTML = `
-      <video controls width="100%">
-        <source src="${res.videoUrl}" type="video/mp4">
-      </video>
-    `;
+  if (!text) return;
 
-  } catch {
-    bubble.textContent =
-      "Video generation failed.";
-  }
-}
+  createMessage(text, "user");
 
-document
-  .getElementById("imageUpload")
-  .addEventListener("change", async (e) => {
+  chatInput.value = "";
 
-    const file = e.target.files[0];
+  chatInput.style.height = "auto";
 
-    if (!file) return;
+  // CLOSE SIDEBAR IF OPEN
 
-    const bubble = addMessage(
-      "Uploading image...",
+  closeSidebarMenu();
+
+  // LOADING MESSAGE
+
+  const loadingBubble =
+    createMessage(
+      "Thinking...",
       "ai"
     );
 
-    try {
-      const uploaded = await uploadImage(file);
+  try {
 
-      bubble.innerHTML = `
-        <p>Image uploaded successfully.</p>
-        <img class="generated-image" src="${uploaded.imageUrl}" />
-      `;
+    // REMOVE LOADING
 
-      const analysis =
-        await analyzeImage(uploaded.imageUrl);
+    loadingBubble.parentElement.remove();
 
-      addMessage(
-        analysis.analysis,
-        "ai"
-      );
+    // STREAM RESPONSE
 
-    } catch {
-      bubble.textContent =
-        "Image upload failed.";
+    await streamAIResponse(
+      "Hello 👋 I am Maichat, your multimodal AI assistant. Your backend and streaming UI are now connected successfully."
+    );
+
+  } catch (error) {
+
+    loadingBubble.innerHTML =
+      "Something went wrong.";
+
+    console.error(error);
+
+  }
+
+}
+
+
+// =========================
+// SEND BUTTON
+// =========================
+
+sendBtn.addEventListener(
+  "click",
+  sendMessage
+);
+
+
+// =========================
+// ENTER KEY
+// =========================
+
+chatInput.addEventListener(
+  "keydown",
+  (e) => {
+
+    if (
+      e.key === "Enter" &&
+      !e.shiftKey
+    ) {
+
+      e.preventDefault();
+
+      sendMessage();
+
     }
-  });
 
-window.onload = async () => {
-  await startNewChat();
-};
+  }
+);
+
+
+// =========================
+// NEW CHAT
+// =========================
+
+newChatBtn.addEventListener(
+  "click",
+  () => {
+
+    chatWindow.innerHTML = `
+
+      <div class="message ai-message">
+
+        <div class="bubble">
+
+          👋 New chat started with Maichat.
+
+        </div>
+
+      </div>
+
+    `;
+
+    closeSidebarMenu();
+
+  }
+);
