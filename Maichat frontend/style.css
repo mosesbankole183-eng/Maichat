@@ -454,11 +454,15 @@ body{
 /* SEND */
 
 .send-btn{
-  width:48px;
-  height:48px;
+  width:50px;
+  height:50px;
 
   border:none;
   border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
   background:
     linear-gradient(
@@ -470,9 +474,14 @@ body{
   color:white;
 
   box-shadow:
-    0 0 20px rgba(59,130,246,.5);
+    0 0 25px rgba(59,130,246,.45),
+    inset 0 0 10px rgba(255,255,255,.08);
 
   transition:.25s;
+}
+
+.send-btn:active{
+  transform:scale(.94);
 }
 
 .send-btn:active,
