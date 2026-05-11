@@ -2,23 +2,36 @@
 // ELEMENTS
 // =========================
 
-const menuBtn = document.getElementById("menuBtn");
-const sidebar = document.getElementById("sidebar");
-const backdrop = document.getElementById("backdrop");
-const closeSidebar = document.getElementById("closeSidebar");
+const menuBtn =
+  document.getElementById("menuBtn");
 
-const sendBtn = document.getElementById("sendBtn");
-const chatInput = document.getElementById("chatInput");
-const chatWindow = document.getElementById("chatWindow");
+const sidebar =
+  document.getElementById("sidebar");
 
-const newChatBtn = document.getElementById("newChatBtn");
+const backdrop =
+  document.getElementById("backdrop");
+
+const closeSidebar =
+  document.getElementById("closeSidebar");
+
+const sendBtn =
+  document.getElementById("sendBtn");
+
+const chatInput =
+  document.getElementById("chatInput");
+
+const chatWindow =
+  document.getElementById("chatWindow");
+
+const newChatBtn =
+  document.getElementById("newChatBtn");
 
 
 // =========================
 // SIDEBAR
 // =========================
 
-function openSidebar() {
+function openSidebar(){
 
   sidebar.classList.add("active");
 
@@ -28,7 +41,7 @@ function openSidebar() {
 
 }
 
-function closeSidebarMenu() {
+function closeSidebarMenu(){
 
   sidebar.classList.remove("active");
 
@@ -38,19 +51,24 @@ function closeSidebarMenu() {
 
 }
 
-menuBtn.addEventListener("click", () => {
+menuBtn.addEventListener(
+  "click",
+  () => {
 
-  if (sidebar.classList.contains("active")) {
+    if(
+      sidebar.classList.contains("active")
+    ){
 
-    closeSidebarMenu();
+      closeSidebarMenu();
 
-  } else {
+    }else{
 
-    openSidebar();
+      openSidebar();
+
+    }
 
   }
-
-});
+);
 
 backdrop.addEventListener(
   "click",
@@ -67,28 +85,36 @@ closeSidebar.addEventListener(
 // AUTO RESIZE TEXTAREA
 // =========================
 
-chatInput.addEventListener("input", () => {
+chatInput.addEventListener(
+  "input",
+  () => {
 
-  chatInput.style.height = "auto";
+    chatInput.style.height = "auto";
 
-  chatInput.style.height =
-    chatInput.scrollHeight + "px";
+    chatInput.style.height =
+      chatInput.scrollHeight + "px";
 
-});
+  }
+);
 
 
 // =========================
 // CREATE MESSAGE
 // =========================
 
-function createMessage(content, type) {
+function createMessage(
+  content,
+  type
+){
 
-  const message = document.createElement("div");
+  const message =
+    document.createElement("div");
 
   message.className =
     `message ${type}-message`;
 
-  const bubble = document.createElement("div");
+  const bubble =
+    document.createElement("div");
 
   bubble.className = "bubble";
 
@@ -107,22 +133,22 @@ function createMessage(content, type) {
 
 
 // =========================
-// FAKE AI STREAMING
+// STREAMING RESPONSE
 // =========================
 
-async function streamAIResponse(text) {
+async function streamAIResponse(
+  text
+){
 
-  const bubble = createMessage(
-    "",
-    "ai"
-  );
+  const bubble =
+    createMessage("", "ai");
 
   let index = 0;
 
   const typingCursor =
     `<span class="typing-cursor"></span>`;
 
-  while (index < text.length) {
+  while(index < text.length){
 
     bubble.innerHTML =
       text.slice(0, index + 1) +
@@ -134,7 +160,7 @@ async function streamAIResponse(text) {
       chatWindow.scrollHeight;
 
     await new Promise(resolve =>
-      setTimeout(resolve, 18)
+      setTimeout(resolve, 14)
     );
 
   }
@@ -148,12 +174,12 @@ async function streamAIResponse(text) {
 // SEND MESSAGE
 // =========================
 
-async function sendMessage() {
+async function sendMessage(){
 
   const text =
     chatInput.value.trim();
 
-  if (!text) return;
+  if(!text) return;
 
   createMessage(text, "user");
 
@@ -161,11 +187,7 @@ async function sendMessage() {
 
   chatInput.style.height = "auto";
 
-  // CLOSE SIDEBAR IF OPEN
-
   closeSidebarMenu();
-
-  // LOADING MESSAGE
 
   const loadingBubble =
     createMessage(
@@ -173,19 +195,19 @@ async function sendMessage() {
       "ai"
     );
 
-  try {
+  try{
 
-    // REMOVE LOADING
+    // REMOVE THINKING
 
     loadingBubble.parentElement.remove();
 
-    // STREAM RESPONSE
+    // DEMO STREAM
 
     await streamAIResponse(
-      "Hello 👋 I am Maichat, your multimodal AI assistant. Your backend and streaming UI are now connected successfully."
+      "✨ Hello, I am Maichat — your premium multimodal AI assistant. Your upgraded mobile UI, streaming responses, sidebar animations, and modern composer are now working successfully."
     );
 
-  } catch (error) {
+  }catch(error){
 
     loadingBubble.innerHTML =
       "Something went wrong.";
@@ -208,17 +230,17 @@ sendBtn.addEventListener(
 
 
 // =========================
-// ENTER KEY
+// ENTER TO SEND
 // =========================
 
 chatInput.addEventListener(
   "keydown",
   (e) => {
 
-    if (
+    if(
       e.key === "Enter" &&
       !e.shiftKey
-    ) {
+    ){
 
       e.preventDefault();
 
@@ -253,6 +275,25 @@ newChatBtn.addEventListener(
     `;
 
     closeSidebarMenu();
+
+  }
+);
+
+
+// =========================
+// FAKE VOICE BUTTON
+// =========================
+
+document.querySelector(
+  ".voice-btn"
+).addEventListener(
+  "click",
+  () => {
+
+    createMessage(
+      "🎤 Voice mode coming soon in MAICHAT.",
+      "ai"
+    );
 
   }
 );
