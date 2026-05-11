@@ -3,25 +3,33 @@ const sidebar = document.getElementById("sidebar");
 const backdrop = document.getElementById("backdrop");
 const closeSidebar = document.getElementById("closeSidebar");
 
-function openSidebar() {
-  sidebar.classList.add("active");
-  backdrop.classList.add("active");
-  menuBtn.classList.add("active");
-}
-
-function closeSidebarMenu() {
-  sidebar.classList.remove("active");
-  backdrop.classList.remove("active");
-  menuBtn.classList.remove("active");
-}
-
 menuBtn.addEventListener("click", () => {
 
-  if (sidebar.classList.contains("active")) {
-    closeSidebarMenu();
-  } else {
-    openSidebar();
-  }
+  sidebar.classList.toggle("active");
+
+  backdrop.classList.toggle("active");
+
+  menuBtn.classList.toggle("active");
+
+});
+
+backdrop.addEventListener("click", () => {
+
+  sidebar.classList.remove("active");
+
+  backdrop.classList.remove("active");
+
+  menuBtn.classList.remove("active");
+
+});
+
+closeSidebar.addEventListener("click", () => {
+
+  sidebar.classList.remove("active");
+
+  backdrop.classList.remove("active");
+
+  menuBtn.classList.remove("active");
 
 });
 
