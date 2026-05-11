@@ -166,18 +166,17 @@ body{
 
 .sidebar{
   position:fixed;
-  left:0;
   top:0;
+  left:0;
 
   width:280px;
-  height:100%;
+  height:100vh;
+
+  background:rgba(15,23,42,.95);
+
+  backdrop-filter:blur(20px);
 
   z-index:999;
-
-  transform:translateX(-110%);
-
-  transition:
-    transform .45s cubic-bezier(.22,1,.36,1);
 
   padding:20px;
 
@@ -185,40 +184,13 @@ body{
   flex-direction:column;
   gap:14px;
 
-  background:
-    rgba(15,23,42,.88);
+  transform:translateX(-100%);
 
-  backdrop-filter:blur(25px);
+  transition:transform .35s ease;
 }
 
 .sidebar.active{
   transform:translateX(0);
-}
-
-.sidebar-header h2{
-  font-size:28px;
-  margin-bottom:10px;
-}
-
-.sidebar button{
-  border:none;
-  border-radius:18px;
-
-  padding:16px;
-
-  background:
-    rgba(255,255,255,.06);
-
-  color:white;
-  font-size:15px;
-}
-
-.sidebar-bottom{
-  margin-top:auto;
-}
-
-.cancel-btn{
-  background:#dc2626 !important;
 }
 
 /* BACKDROP */
@@ -227,8 +199,7 @@ body{
   position:fixed;
   inset:0;
 
-  background:
-    rgba(0,0,0,.45);
+  background:rgba(0,0,0,.45);
 
   opacity:0;
   pointer-events:none;
@@ -243,6 +214,73 @@ body{
   pointer-events:auto;
 }
 
+/* HAMBURGER */
+
+.hamburger{
+  width:56px;
+  height:56px;
+
+  border:none;
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(15,23,42,.72);
+
+  position:relative;
+}
+
+.hamburger-lines{
+  width:26px;
+  height:20px;
+
+  position:relative;
+}
+
+.hamburger-lines span{
+  position:absolute;
+
+  width:100%;
+  height:2.5px;
+
+  background:white;
+
+  border-radius:10px;
+
+  left:0;
+
+  transition:.3s;
+}
+
+.hamburger-lines span:nth-child(1){
+  top:0;
+}
+
+.hamburger-lines span:nth-child(2){
+  top:8px;
+}
+
+.hamburger-lines span:nth-child(3){
+  top:16px;
+}
+
+/* ACTIVE */
+
+.hamburger.active .hamburger-lines span:nth-child(1){
+  top:8px;
+  transform:rotate(45deg);
+}
+
+.hamburger.active .hamburger-lines span:nth-child(2){
+  opacity:0;
+}
+
+.hamburger.active .hamburger-lines span:nth-child(3){
+  top:8px;
+  transform:rotate(-45deg);
+}
 /* CHAT */
 
 .chat-container{
