@@ -51,7 +51,7 @@ function closeSidebarMenu(){
 
 menuBtn.addEventListener(
   "click",
-  () => {
+  ()=>{
 
     if(
       sidebar.classList.contains("active")
@@ -82,7 +82,7 @@ closeSidebar.addEventListener(
 
 chatInput.addEventListener(
   "input",
-  () => {
+  ()=>{
 
     chatInput.style.height =
       "auto";
@@ -93,7 +93,7 @@ chatInput.addEventListener(
   }
 );
 
-/* CREATE MESSAGE */
+/* ADD MESSAGE */
 
 function addMessage(
   text,
@@ -129,11 +129,19 @@ async function sendMessage(){
 
   if(!text) return;
 
-  addMessage(text, "user");
+  /* USER MESSAGE */
+
+  addMessage(
+    text,
+    "user"
+  );
 
   chatInput.value = "";
 
-  chatInput.style.height = "auto";
+  chatInput.style.height =
+    "auto";
+
+  /* THINKING */
 
   const thinking =
     addMessage(
@@ -160,33 +168,40 @@ async function sendMessage(){
         }
       );
 
+    if(!response.ok){
+
+      throw new Error(
+        "Backend failed"
+      );
+
+    }
+
     const data =
       await response.json();
 
     thinking.querySelector(
       ".bubble"
     ).innerText =
-      data.reply;
+      data.reply ||
+      "No response";
 
-catch(error){
+  }catch(error){
 
-  console.log(error);
+    console.log(error);
 
-  thinking.querySelector(
-    ".bubble"
-  ).innerText =
-    error;
+    thinking.querySelector(
+      ".bubble"
+    ).innerText =
+      "Server error.";
 
-}
+  }
 
 }
 
 /* SEND BUTTON */
 
-sendBtn.addEventListener(
-  "click",
-  sendMessage
-);
+sendBtn.onclick =
+  sendMessage;
 
 /* ENTER KEY */
 
