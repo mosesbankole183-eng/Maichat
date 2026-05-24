@@ -168,16 +168,16 @@ async function sendMessage(){
     ).innerText =
       data.reply;
 
-  }catch(error){
+catch(error){
 
-    thinking.querySelector(
-      ".bubble"
-    ).innerText =
-      "Server error.";
+  console.log(error);
 
-    console.log(error);
+  thinking.querySelector(
+    ".bubble"
+  ).innerText =
+    error;
 
-  }
+}
 
 }
 
