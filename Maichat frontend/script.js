@@ -174,28 +174,47 @@ async function streamAIResponse(
 // SEND MESSAGE
 // =========================
 
-async function sendMessage(){
+async function sendMessage() {
 
-  const text =
-    chatInput.value.trim();
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
 
-  if(!text) return;
+  if (!text) return;
 
-  createMessage(text, "user");
+  addMessage(text, "user");
 
-  chatInput.value = "";
+  input.value = "";
 
-  chatInput.style.height = "auto";
+  const thinking = addMessage("Thinking...", "ai");
 
-  closeSidebarMenu();
+  try {
 
-  const loadingBubble =
-    createMessage(
-      "Thinking...",
-      "ai"
+    const response = await fetch(
+      `${API_URL}/chat`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: text
+        })
+      }
     );
 
-  try{
+    const data = await response.json();
+
+    thinking.querySelector(".bubble").innerText =
+      data.reply || "No response";
+
+  } catch (error) {
+
+    thinking.querySelector(".bubble").innerText =
+      "Server error.";
+
+  }
+
+}
 
     // REMOVE THINKING
 
