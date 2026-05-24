@@ -1,6 +1,7 @@
-// =========================
-// ELEMENTS
-// =========================
+const API_URL =
+  "https://maichat-backend-3-gm8f.onrender.com";
+
+/* ELEMENTS */
 
 const menuBtn =
   document.getElementById("menuBtn");
@@ -26,10 +27,7 @@ const chatWindow =
 const newChatBtn =
   document.getElementById("newChatBtn");
 
-
-// =========================
-// SIDEBAR
-// =========================
+/* SIDEBAR */
 
 function openSidebar(){
 
@@ -80,16 +78,14 @@ closeSidebar.addEventListener(
   closeSidebarMenu
 );
 
-
-// =========================
-// AUTO RESIZE TEXTAREA
-// =========================
+/* AUTO RESIZE */
 
 chatInput.addEventListener(
   "input",
   () => {
 
-    chatInput.style.height = "auto";
+    chatInput.style.height =
+      "auto";
 
     chatInput.style.height =
       chatInput.scrollHeight + "px";
@@ -97,164 +93,106 @@ chatInput.addEventListener(
   }
 );
 
+/* CREATE MESSAGE */
 
-// =========================
-// CREATE MESSAGE
-// =========================
-
-function createMessage(
-  content,
-  type
+function addMessage(
+  text,
+  sender
 ){
 
   const message =
     document.createElement("div");
 
   message.className =
-    `message ${type}-message`;
+    `message ${sender}-message`;
 
-  const bubble =
-    document.createElement("div");
-
-  bubble.className = "bubble";
-
-  bubble.innerHTML = content;
-
-  message.appendChild(bubble);
+  message.innerHTML = `
+    <div class="bubble">
+      ${text}
+    </div>
+  `;
 
   chatWindow.appendChild(message);
 
   chatWindow.scrollTop =
     chatWindow.scrollHeight;
 
-  return bubble;
-
+  return message;
 }
 
+/* SEND MESSAGE */
 
-// =========================
-// STREAMING RESPONSE
-// =========================
+async function sendMessage(){
 
-async function streamAIResponse(
-  text
-){
+  const text =
+    chatInput.value.trim();
 
-  const bubble =
-    createMessage("", "ai");
-
-  let index = 0;
-
-  const typingCursor =
-    `<span class="typing-cursor"></span>`;
-
-  while(index < text.length){
-
-    bubble.innerHTML =
-      text.slice(0, index + 1) +
-      typingCursor;
-
-    index++;
-
-    chatWindow.scrollTop =
-      chatWindow.scrollHeight;
-
-    await new Promise(resolve =>
-      setTimeout(resolve, 14)
-    );
-
-  }
-
-  bubble.innerHTML = text;
-
-}
-
-
-// =========================
-// SEND MESSAGE
-// =========================
-
-async function sendMessage() {
-
-  const input = document.getElementById("chatInput");
-  const text = input.value.trim();
-
-  if (!text) return;
+  if(!text) return;
 
   addMessage(text, "user");
 
-  input.value = "";
+  chatInput.value = "";
 
-  const thinking = addMessage("Thinking...", "ai");
+  chatInput.style.height = "auto";
 
-  try {
-
-    const response = await fetch(
-      `${API_URL}/chat`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: text
-        })
-      }
+  const thinking =
+    addMessage(
+      "Thinking...",
+      "ai"
     );
 
-    const data = await response.json();
+  try{
 
-    thinking.querySelector(".bubble").innerText =
-      data.reply || "No response";
+    const response =
+      await fetch(
+        `${API_URL}/chat`,
+        {
+          method:"POST",
 
-  } catch (error) {
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
 
-    thinking.querySelector(".bubble").innerText =
-      "Server error.";
+          body:JSON.stringify({
+            message:text
+          })
+        }
+      );
 
-  }
+    const data =
+      await response.json();
 
-}
-
-    // REMOVE THINKING
-
-    loadingBubble.parentElement.remove();
-
-    // DEMO STREAM
-
-    await streamAIResponse(
-      "✨ Hello, I am Maichat — your premium multimodal AI assistant. Your upgraded mobile UI, streaming responses, sidebar animations, and modern composer are now working successfully."
-    );
+    thinking.querySelector(
+      ".bubble"
+    ).innerText =
+      data.reply;
 
   }catch(error){
 
-    loadingBubble.innerHTML =
-      "Something went wrong.";
+    thinking.querySelector(
+      ".bubble"
+    ).innerText =
+      "Server error.";
 
-    console.error(error);
+    console.log(error);
 
   }
 
 }
 
-
-// =========================
-// SEND BUTTON
-// =========================
+/* SEND BUTTON */
 
 sendBtn.addEventListener(
   "click",
   sendMessage
 );
 
-
-// =========================
-// ENTER TO SEND
-// =========================
+/* ENTER KEY */
 
 chatInput.addEventListener(
   "keydown",
-  (e) => {
+  (e)=>{
 
     if(
       e.key === "Enter" &&
@@ -270,49 +208,19 @@ chatInput.addEventListener(
   }
 );
 
-
-// =========================
-// NEW CHAT
-// =========================
+/* NEW CHAT */
 
 newChatBtn.addEventListener(
   "click",
-  () => {
+  ()=>{
 
     chatWindow.innerHTML = `
-
       <div class="message ai-message">
-
         <div class="bubble">
-
-          👋 New chat started with Maichat.
-
+          👋 New chat started.
         </div>
-
       </div>
-
     `;
-
-    closeSidebarMenu();
-
-  }
-);
-
-
-// =========================
-// FAKE VOICE BUTTON
-// =========================
-
-document.querySelector(
-  ".voice-btn"
-).addEventListener(
-  "click",
-  () => {
-
-    createMessage(
-      "🎤 Voice mode coming soon in MAICHAT.",
-      "ai"
-    );
 
   }
 );
