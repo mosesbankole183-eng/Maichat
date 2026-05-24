@@ -1,4 +1,4 @@
-const BASE_URL = "https://YOUR-RENDER-URL.onrender.com";
+const BASE_URL = "https://maichat-backend-3-gm8f.onrender.com";
 
 let token = localStorage.getItem("maichat_token");
 
