@@ -1,5 +1,5 @@
 const API_URL =
-  "https://maichat-backend-3-gm8f.onrender.com";
+  "https://maichat-backend-2-btua.onrender.com";
 
 /* ELEMENTS */
 
